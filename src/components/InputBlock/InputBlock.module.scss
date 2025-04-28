@@ -1,0 +1,104 @@
+@use "../../utils/mixins" as mixin;
+
+.input {
+  &__block {
+    box-sizing: border-box;
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    margin-bottom: 35px;
+
+    @include mixin.on-mobile {
+      flex-direction: column;
+      height: 85px;
+    }
+
+    @include mixin.on-tablet {
+      flex-direction: row;
+      height: 50px;
+    }
+
+    @include mixin.on-tablet-2 {
+      flex-direction: row;
+      height: 50px;
+    }
+
+    @include mixin.on-desktop {
+      flex-direction: row;
+      height: 60px;
+    }
+  }
+
+  &__value {
+    box-sizing: border-box;
+    border: 1px solid #555;
+    background-color: #2c2c2c;
+    color: #f0f0f0;
+    padding: 10px 15px;
+    border-radius: 10px;
+    font-size: 16px;
+
+    @include mixin.on-mobile {
+      width: 100%;
+      flex-grow: 1;
+    }
+
+    @include mixin.on-tablet {
+      width: 70%;
+    }
+
+    @include mixin.on-tablet-2 {
+      width: 70%;
+    }
+
+    @include mixin.on-desktop {
+      width: 70%;
+    }
+
+    &::placeholder {
+      color: #a9a9a9;
+      font-size: 16px;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: #8a2be2;
+    }
+  }
+
+  &__button {
+    box-sizing: border-box;
+    background-color: #8a2be2;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 500;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+    @include mixin.on-mobile {
+      width: 100%;
+      flex-grow: 1;
+    }
+
+    @include mixin.on-tablet {
+      width: 30%;
+    }
+
+    @include mixin.on-tablet-2 {
+      width: 30%;
+    }
+
+    @include mixin.on-desktop {
+      width: 30%;
+    }
+
+    &:hover {
+      background-color: #9400d3;
+    }
+  }
+}

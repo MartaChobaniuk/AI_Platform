@@ -1,0 +1,47 @@
+@use "../../utils/mixins" as mixin;
+
+.chat {
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: max-content;
+  padding: 20px 0;
+  margin: 0 auto;
+
+  @include mixin.on-mobile {
+    width: 60%;
+  }
+  @include mixin.on-tablet {
+    width: 50%;
+  }
+
+  @include mixin.on-tablet-2 {
+    width: 50%;
+  }
+
+  @include mixin.on-desktop {
+    width: 50%;
+  }
+
+  &__header {
+    width: 105%;
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 4;
+    background-color: #1E1E1E;
+    margin-bottom: 20px;
+  }
+
+  &__title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+    text-transform: uppercase;
+    background-color: #1E1E1E;
+  }
+}
