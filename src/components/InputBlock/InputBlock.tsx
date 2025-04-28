@@ -1,7 +1,5 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import debounce from 'lodash.debounce';
 import { v4 as uuidv4 } from 'uuid';
 import styles from './InputBlock.module.scss';
 import { RootState } from '../../store/store';
@@ -13,6 +11,7 @@ export const InputBlock = () => {
   const dispatch = useDispatch();
   const userId = useSelector((state: RootState) => state.auth.userId);
   const [query, setQuery] = useState('');
+  const [isSending, setIsSending] = useState(false);
 
   useEffect(() => {
     let storedUserId = localStorage.getItem('userId');
@@ -27,35 +26,32 @@ export const InputBlock = () => {
     setQuery(event.target.value);
   };
 
-  const debouncedSendMessage = useCallback(
-    debounce(() => {
-      if (!query) return;
+  const handleSendMessage = () => {
+    if (!query) return;
 
-      const newMessage: Message = {
+    setIsSending(true);
+
+    const newMessage: Message = {
+      userId,
+      id: uuidv4(),
+      text: query,
+      role: 'user',
+    };
+
+    dispatch(addMessage(newMessage));
+    setQuery('');
+
+    setTimeout(() => {
+      const aiResponse: Message = {
         userId,
         id: uuidv4(),
-        text: query,
-        role: 'user',
+        text: `AI response to: ${query}`,
+        role: 'ai',
       };
+      dispatch(addMessage(aiResponse));
 
-      dispatch(addMessage(newMessage));
-      setQuery('');
-
-      setTimeout(() => {
-        const aiResponse: Message = {
-          userId,
-          id: uuidv4(),
-          text: `AI response to: ${query}`,
-          role: 'ai',
-        };
-        dispatch(addMessage(aiResponse));
-      }, 1000);
-    }, 1000),
-    [query, dispatch, userId]
-  );
-
-  const handleSendMessage = () => {
-    debouncedSendMessage();
+      setIsSending(false);
+    }, 1000);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -63,12 +59,6 @@ export const InputBlock = () => {
       handleSendMessage();
     }
   };
-
-  useEffect(() => {
-    return () => {
-      debouncedSendMessage.cancel();
-    };
-  }, [debouncedSendMessage]);
 
   return (
     <div className={styles.input__block}>
@@ -85,10 +75,9 @@ export const InputBlock = () => {
         title="Send message"
         className={styles.input__button}
         onClick={handleSendMessage}
-        onKeyDown={handleKeyDown}
-        disabled={!query}
+        disabled={!query || isSending}
       >
-        Send
+        {isSending ? 'Sending...' : 'Send'}
       </button>
     </div>
   );

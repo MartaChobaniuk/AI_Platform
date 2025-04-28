@@ -1,6 +1,6 @@
 import styles from './Chat.module.scss';
-import { InputBlock } from '../InputBlock/InputBlock';
-import { MessagesBlock } from '../MessagesBlock/MessagesBlock';
+import { InputBlock } from '../InputBlock';
+import { MessagesBlock } from '../MessagesBlock';
 
 export const Chat = () => {
   return (
